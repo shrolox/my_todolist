@@ -11,8 +11,8 @@
 			<td><%= todo.title %></td>
 			<td><%= todo.due_date %></td>
 			<td><%= todo.description %></td>
-			<td><%= link_to "Up", user_todo_up_url(todo), method: :patch %></td>
-			<td><%= link_to "Down", user_todo_down_url(todo), method: :patch %></td>
+			<td><%= link_to "Up", user_todo_up_url(todo), method: :patch if !todo.is_first %></td>
+			<td><%= link_to "Down", user_todo_down_url(todo), method: :patch if !todo.is_last %></td>
 			<td><%= link_to "Delete", user_todo_url(todo), method: :delete %></td>
 			<td><%= link_to "Done", user_todo_done_url(todo), method: :patch %></td>
 		</tr>

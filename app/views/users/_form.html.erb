@@ -1,0 +1,11 @@
+<div class="error">
+	<% @user.errors.each do |attr, msg| %>
+		<%= attr %> : <%= msg %>
+	<% end %>
+</div>
+
+<%= form_for @user do |f|%>
+  <%= f.label :email %><br>
+  <%= f.email_field :email %><br>
+  <%= f.submit %>
+<% end %>

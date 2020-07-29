@@ -12,7 +12,7 @@ RSpec.describe "Users", type: :request do
   describe "POST /create" do
     it "returns http success" do
       post "/users", :params => { :user => {:email => "toto@to.to"} }
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(:success)
     end
   end
 end

@@ -24,6 +24,14 @@ class Todo < ApplicationRecord
     self.status = 0
   end
 
+  private def previous_todo
+    self.user.todos.sorted.where(status: self.status).where(master_todo_id: self.master_todo_id).where("priority < ?", self.priority).last
+  end
+
+  private def next_todo
+    self.user.todos.sorted.where(status: self.status).where(master_todo_id: self.master_todo_id).where("priority > ?", self.priority).first
+  end
+
   def mark_done
     self.update(status: 1)
   end
@@ -33,15 +41,17 @@ class Todo < ApplicationRecord
   end
 
   def is_first
-    
+    todo_above = previous_todo
+    return todo_above == nil
   end
 
   def is_last
-    
+    todo_under = next_todo
+    return todo_under == nil
   end
 
   def up_in_users_list
-  	todo_above = self.user.todos.sorted.where(master_todo_id: self.master_todo_id).where("priority < ?", self.priority).last
+  	todo_above = previous_todo
     if todo_above
       above_priority = todo_above.priority
   	  todo_above.update(priority: self.priority)
@@ -50,7 +60,7 @@ class Todo < ApplicationRecord
   end
 
   def down_in_users_list
-  	todo_under = self.user.todos.sorted.where(master_todo_id: self.master_todo_id).where("priority > ?", self.priority).first
+  	todo_under = next_todo
     if todo_under
       under_priority = todo_under.priority
   	  todo_under.update(priority: self.priority)

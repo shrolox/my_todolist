@@ -17,7 +17,12 @@ class TodosController < ApplicationController
     @todo = Todo.new(params.require(:todo).permit(:title, :description, :due_date))
     @todo.user = current_user
     @todo.save
-    redirect_to user_todos_path
+
+    if @todo.errors.any?
+      render 'new'
+    else
+      redirect_to user_todos_path
+    end
   end
 
   def update
