@@ -1,0 +1,8 @@
+<h1>My Todo</h1>
+<% @todos.each do |todo| %>
+	<%= todo.title %>
+	<%= link_to "Up", user_todo_up_url(todo), method: :patch %>
+	<%= link_to "Down", user_todo_down_url(todo), method: :patch %><br/>
+<% end %>
+<%= link_to 'New', new_user_todo_path %><br/><br/>
+<%= link_to "Sign out", delete_session_path, method: :delete %>

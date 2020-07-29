@@ -1,0 +1,8 @@
+<%= link_to 'Back', root_path %>
+
+<h1>Log in</h1>
+<%= form_tag create_session_url do %>
+<%= label_tag :email %>
+<%= email_field_tag :email %>
+<%= submit_tag "Login"%>
+<% end %>
