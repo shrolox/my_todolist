@@ -4,7 +4,6 @@ class CreateTodos < ActiveRecord::Migration[5.2]
       t.integer :priority
       t.date :due_date
       t.references :user, foreign_key: true
-      t.references :master_todo_id, foreign_key: true
       t.integer :status
       t.string :title
       t.text :description

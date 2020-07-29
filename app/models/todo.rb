@@ -2,7 +2,6 @@ class Todo < ApplicationRecord
   validates :title, presence: true
 
   belongs_to :user
-  belongs_to :master_todo, class_name: "Todo", foreign_key: :master_todo_id, optional: true
 
   scope :major, -> { where(master_todo_id: nil) }
   scope :sorted, -> { order(priority: :asc) }
