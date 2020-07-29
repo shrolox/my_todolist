@@ -2,11 +2,11 @@ class TodosController < ApplicationController
   before_action :authenticate_user
 
   def index
-    @todos = current_user.todos.major.not_done.sorted
+    @todos = current_user.todos.not_done.sorted
   end
 
   def done
-    @todos = current_user.todos.major.done.sorted
+    @todos = current_user.todos.done.sorted
   end
 
   def new

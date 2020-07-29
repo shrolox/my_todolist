@@ -3,7 +3,6 @@ class Todo < ApplicationRecord
 
   belongs_to :user
 
-  scope :major, -> { where(master_todo_id: nil) }
   scope :sorted, -> { order(priority: :asc) }
   scope :done, -> { where(status: 1) }
   scope :not_done, -> { where(status: 0) }
@@ -24,11 +23,11 @@ class Todo < ApplicationRecord
   end
 
   private def previous_todo
-    self.user.todos.sorted.where(status: self.status).where(master_todo_id: self.master_todo_id).where("priority < ?", self.priority).last
+    self.user.todos.sorted.where(status: self.status).where("priority < ?", self.priority).last
   end
 
   private def next_todo
-    self.user.todos.sorted.where(status: self.status).where(master_todo_id: self.master_todo_id).where("priority > ?", self.priority).first
+    self.user.todos.sorted.where(status: self.status).where("priority > ?", self.priority).first
   end
 
   def mark_done

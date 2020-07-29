@@ -9,7 +9,9 @@ class SessionController < ApplicationController
       	session[:user_id] = @user.id
       	redirect_to user_todos_path
    	else
-      	redirect_to new_session_path
+        @user = User.new
+        @error = "This account does not exist"
+      	render 'new'
    	end
   end
 

@@ -10,19 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_133512) do
+ActiveRecord::Schema.define(version: 2020_07_29_125840) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "todos", force: :cascade do |t|
     t.integer "priority"
     t.date "due_date"
-    t.integer "user_id"
-    t.integer "master_todo_id"
+    t.bigint "user_id"
     t.integer "status"
     t.string "title"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["master_todo_id"], name: "index_todos_on_master_todo_id"
     t.index ["user_id"], name: "index_todos_on_user_id"
   end
 
@@ -32,4 +33,5 @@ ActiveRecord::Schema.define(version: 2020_07_29_133512) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "todos", "users"
 end
