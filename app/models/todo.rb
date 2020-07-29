@@ -6,8 +6,10 @@ class Todo < ApplicationRecord
 
   scope :major, -> { where(master_todo_id: nil) }
   scope :sorted, -> { order(priority: :asc) }
+  scope :done, -> { where(status: 1) }
+  scope :not_done, -> { where(status: 0) }
 
-  before_create :set_priority
+  before_create :set_priority, :set_status
 
   private def set_priority
   	if (self.user)
@@ -18,17 +20,41 @@ class Todo < ApplicationRecord
   	end
   end
 
+  private def set_status
+    self.status = 0
+  end
+
+  def mark_done
+    self.update(status: 1)
+  end
+
+  def mark_not_done
+    self.update(status: 0)
+  end
+
+  def is_first
+    
+  end
+
+  def is_last
+    
+  end
+
   def up_in_users_list
   	todo_above = self.user.todos.sorted.where(master_todo_id: self.master_todo_id).where("priority < ?", self.priority).last
-  	above_priority = todo_above.priority
-  	todo_above.update(priority: self.priority)
-  	self.update(priority: above_priority)
+    if todo_above
+      above_priority = todo_above.priority
+  	  todo_above.update(priority: self.priority)
+  	  self.update(priority: above_priority)
+    end
   end
 
   def down_in_users_list
-  	todo_above = self.user.todos.sorted.where(master_todo_id: self.master_todo_id).where("priority > ?", self.priority).first
-  	under_priority = todo_under.priority
-  	todo_under.update(priority: self.priority)
-  	self.update(priority: under_priority)
+  	todo_under = self.user.todos.sorted.where(master_todo_id: self.master_todo_id).where("priority > ?", self.priority).first
+    if todo_under
+      under_priority = todo_under.priority
+  	  todo_under.update(priority: self.priority)
+  	  self.update(priority: under_priority)
+    end
   end
 end

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   		resources :todos, only: [:index, :new, :create, :update, :destroy]
   		patch '/todo/:id/up', as: 'todo_up', to: 'todos#up_in_list'
   		patch '/todo/:id/down', as: 'todo_down', to: 'todos#down_in_list'
+      patch '/todo/:id/done', as: 'todo_done', to: 'todos#done'
   	end
   	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
